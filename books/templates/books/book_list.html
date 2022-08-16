@@ -8,8 +8,8 @@
 
 {% block content %}
     {% for book in books %}
-        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-        <p>{{ book.description }}</p>
+        <a href="{{ book.get_absolute_url }}">{{ book.title|capfirst }}</a>
+        <p>{{ book.description|truncatewords }}</p>
     {% endfor %}
     <a href="{% url 'book_create' %}">اضافه کردن کتاب جدبد</a>
 {% endblock %}

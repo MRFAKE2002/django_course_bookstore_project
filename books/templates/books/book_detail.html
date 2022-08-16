@@ -9,7 +9,7 @@
 {% block content %}
     <h1>{{ book.title }}</h1>
     <p>{{ book.author }}</p
-    <p>{{ book.description }}</p>
+    <p>{{ book.description|linebreaks }}</p>
     <p>{{ book.price }}</p>
     <br>
     <a href="{% url 'book_list'%}">لیست کتاب ها</a>
