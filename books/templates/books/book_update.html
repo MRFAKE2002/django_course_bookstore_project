@@ -2,7 +2,7 @@
 
 {% block title%}
 
-     ساخت کتاب جدبد
+     ویرایش کتاب 
 
 {% endblock %}
 
@@ -10,7 +10,7 @@
     <form method="post" action="">
         {% csrf_token %}
         {{ form.as_p}}
-        <input type="submit" value="ایجاد"> 
+        <input type="submit" value="ذخیره"> 
     </form>
     <br>
     <a href="{% url 'book_list'%}">لیست کتاب ها</a>

@@ -13,4 +13,6 @@
     <p>{{ book.price }}</p>
     <br>
     <a href="{% url 'book_list'%}">لیست کتاب ها</a>
+    <a href="{% url 'book_update' book.id %}">ویرایش کتاب</a>
+    <a href="{% url 'book_delete' book.id %}">حذف کتاب</a>
 {% endblock %}
