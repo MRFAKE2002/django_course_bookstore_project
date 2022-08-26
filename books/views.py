@@ -1,5 +1,6 @@
 from django.views import generic
 from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404
 
 from .models import Book
 class BookListView(generic.ListView):
@@ -9,10 +10,14 @@ class BookListView(generic.ListView):
     context_object_name = 'books'
     
 
-class DetailListView(generic.DetailView):
-    model = Book 
-    template_name = 'books/book_detail.html'
+# class DetailListView(generic.DetailView):
+#     model = Book 
+#     template_name = 'books/book_detail.html'
 
+def book_detail_view(request, pk):
+    book = get_object_or_404(Book, pk=pk) 
+    book_comments = book.comments.all() # list of all comments that have been relate with this book 
+    return render(request, 'books/book_detail.html', {'book':book, 'comments':book_comments})    
 
 class BookCreateView(generic.CreateView):
     model = Book
