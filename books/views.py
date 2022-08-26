@@ -1,7 +1,7 @@
 from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
 from .models import Book
@@ -52,20 +52,40 @@ def book_detail_view(request, pk):
     return render(request, 'books/book_detail.html', context)    
 
 
-# for have make a new book we need user login and for class we must use mixin class
-class BookCreateView(LoginRequiredMixin , generic.CreateView):
+# for make a new book we need user login and for class we must use method " LoginRequiredMixin " mixin class
+class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Book
     fields = ['title', 'author', 'description', 'price', 'cover']
     template_name = 'books/book_create.html'
     
-
-class BookUpdateView(generic.UpdateView):
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+    
+# for make a new book we need user login and for class we must use method " LoginRequiredMixin " mixin class
+# for change or delete a book we need user permission and we must use method " UserPassesTestMixin " from mixin class and we must fill method " test_func "
+class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Book
     fields = ['title', 'author', 'description', 'price', 'cover']
     template_name = 'books/book_update.html'
 
+    def test_func(self):
+        # return the book that we are updating
+        obj = self.get_object()
+        # self.request.user is the user who is login
+        return obj.user == self.request.user
 
-class BookDeleteView(generic.DeleteView):
+
+# for make a new book we need user login and for class we must use method " LoginRequiredMixin " mixin class
+# for change or delete a book we need user permission and we must use method " UserPassesTestMixin " from mixin class and we must fill method " test_func "
+class BookDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Book
     template_name = 'books/book_delete.html'
     success_url = reverse_lazy('book_list')
+
+    def test_func(self):
+        # return the book that we are updating
+        obj = self.get_object()
+        # self.request.user is the user who is login
+        return obj.user == self.request.user
+
