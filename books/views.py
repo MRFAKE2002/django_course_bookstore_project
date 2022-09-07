@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Book
 from .forms import CommentForm
+
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 4
@@ -53,15 +54,12 @@ def book_detail_view(request, pk):
 
 
 # for make a new book we need user login and for class we must use method " LoginRequiredMixin " mixin class
-class BookCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+class BookCreateView(LoginRequiredMixin, generic.CreateView):
     model = Book
     fields = ['title', 'author', 'description', 'price', 'cover']
     template_name = 'books/book_create.html'
-    
-    def test_func(self):
-        obj = self.get_object()
-        return obj.user == self.request.user
-    
+ 
+
 # for make a new book we need user login and for class we must use method " LoginRequiredMixin " mixin class
 # for change or delete a book we need user permission and we must use method " UserPassesTestMixin " from mixin class and we must fill method " test_func "
 class BookUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
