@@ -32,7 +32,7 @@ def book_detail_view(request, pk):
         # make a comment by user request 
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid:
-            # get the comment text from user request by CommentForm that has only text field
+            # get the comment text from user request by CommentForm that has only text field but we don't want to save it in database
             new_comment = comment_form.save(commit=False)
             # get the comment book from the page that we fill the CommentForm
             new_comment.book = book
